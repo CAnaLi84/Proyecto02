@@ -1,0 +1,104 @@
+import java.util.Scanner;
+import java.util.ArrayList;
+
+/**
+ * Clase que modela una tienda con la que un cliente puede interactuar.
+ */
+
+public class Tienda{
+    private static Cliente cliente = new Cliente("Pau88","12345");
+    private static Scanner sc1 = new Scanner(System.in);
+    private static Scanner miProducto = new Scanner(System.in);
+    private static Aplicacion almacen = new Aplicacion();
+
+    public static void main(String[] args){
+	
+	int opcion = -1;
+	while(opcion != 7){
+	    System.out.println("Bienvenido a la tienda virtual");
+	    System.out.println("Inserta la opción que deseas elegir:");
+	    System.out.println("1. Ver productos disponibles en la tienda.");
+	    System.out.println("2. Agregar producto al carrito.");
+	    System.out.println("3. Eliminar producto del carrito.");
+	    System.out.println("4. Comprar articulos en tu carrito.");
+	    System.out.println("5. Ver tu historial de compras.");
+	    System.out.println("6. Ver tu carrito de compras.");
+	    System.out.println("7. Salir");
+	    opcion = sc1.nextInt();
+
+	    switch(opcion){
+	    case 1:
+	        verProductos();
+		break;
+	    case 2:
+		agregarAlCarrito();
+		break;
+	    case 3:
+		eliminarDelCarrito();
+		break;
+	    case 4:
+		cliente.comprarCarrito();
+		break;
+	    case 5:
+		cliente.mostrarHistorialCompras();
+		break;
+	    case 6:
+		cliente.verCarrito();
+		break;
+	    case 7:
+		System.out.println("Vuelva pronto :) !!");
+		break;
+	    default:
+		System.out.println("Ingrese una opción válida");
+		break;
+	    }
+
+	    
+	}
+	sc1.close();
+	miProducto.close();
+    }
+
+	/**
+	 *
+	 *
+	 */
+	public static void verProductos(){
+	    almacen.imprimeInventario();
+	}
+
+	/**
+	 * Método que permite al cliente agregar un producto a su carrito
+	 * por su código de barras.
+	 */
+	public static void agregarAlCarrito(){
+	    System.out.println("Ingresa el código de barras del producto que deseas agregar a tu carrito: ");
+	    String codigo = miProducto.nextLine();
+	    Producto producto;
+	    producto = Aplicacion.buscaAux(codigo);
+	    if(producto != null){
+	    cliente.agregarProductoCarrito(producto);
+	    }else{
+		System.out.println("El producto que deseas agregar no está disponible.");
+	    }
+	}
+
+	/**
+	 *
+	 */
+	public static void eliminarDelCarrito(){
+	    System.out.println("Ingresa el código de barras del producto que deseas eliminar de tu carrito: ");
+	    String codigo = miProducto.nextLine();
+	    if(cliente.getCarrito() != null){
+		for(Producto productoTemp : cliente.getCarrito()){
+		    if(productoTemp.getCodigo().equals(codigo)){
+			cliente.eliminarProductoCarrito(productoTemp);
+		    }
+		}
+	    }else{
+		System.out.println("Aun no tienes productos en tu carrito para eliminar.");
+	    }
+	}
+	
+	
+}

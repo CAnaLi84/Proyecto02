@@ -1,0 +1,22 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+
+/**
+ *
+ *
+ */
+public class TiendaVirtual{
+
+    public static void main(String[] args) throws IOException{
+	//Creación de ventana de bienvenida
+	JFrame frame= new JFrame("MI TIENDA EN LÍNEA");
+	frame.setSize(550,550);
+
+	JPanel panel = new JPanel(new BorderLayout());
+	frame.add(panel);
+
+	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	frame.setVisible(true);
+    }
+}
