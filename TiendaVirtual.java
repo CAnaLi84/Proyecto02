@@ -28,8 +28,6 @@ public class TiendaVirtual extends JFrame{
 	super("Tienda Virtual");
 	ponPestaniaVerArticulos();
 	ponPestaniaVerCarrito();
-	ponPestaniaAgregarProducto();
-	ponPestaniaEliminarProducto();
 	ponPestaniaSalir();
 	add(panelFichas);
 	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -37,146 +35,69 @@ public class TiendaVirtual extends JFrame{
     }
 
     public void ponPestaniaVerArticulos(){
-	JPanel panel = new JPanel(new GridLayout(1,2));
-	JPanel panel_interno = new JPanel(new GridLayout(3,4,10,10));
+	JPanel panel = new JPanel();
+	JPanel panel_interno = new JPanel(new GridLayout(3,4,70,10));
 	
-	Color c1 = new Color(64,224,208);
-	panel_interno.setBackground(c1);
 	Color blanco = new Color(255,255,255);
 	panel.setBackground(blanco);
+	panel_interno.setBackground(blanco);
+
+	//Arreglo con el nombre, imágen y código de barras de cada producto
+	String[][] productos = {
+	    {"Atún", "productos/atun.png", "1234at"},
+	    {"Cereales", "productos/cereales.jpg", "1234cl"},
+	    {"Galletas", "productos/galletas.png", "1234gs"},
+	    {"Jugo de naranja", "productos/jugoNaranja.png", "1234jn"},
+	    {"Leche", "productos/leche.png", "1234lc"},
+	    {"Pan", "productos/pan.png", "1234pn"},
+	    {"Picafresa", "productos/picafresa.jpeg", "1234pf"},
+	    {"Refresco", "productos/refresco.png", "1234rf"},
+	    {"Shampo", "productos/shampo.png", "1234sp"},
+	    {"Tostadas", "productos/tostadas.jpg", "1234td"},
+	    {"Vino", "productos/vino.jpg", "1234vn"},
+	    {"Yogurth", "productos/yogurth.jpg", "1234yg"}
+	};
 
 	//Tamaño de etiquetas de imágenes
 	int labelWidth = 100;
 	int labelHeight = 100;
 
-	JLabel atun = new JLabel(redimensionarImagen("productos/atun.png", labelWidth, labelHeight));
-	JLabel cereales = new JLabel(redimensionarImagen("productos/cereales.jpg", labelWidth, labelHeight));
-	JLabel galletas = new JLabel(redimensionarImagen("productos/galletas.png", labelWidth, labelHeight));
-	JLabel jugo = new JLabel(redimensionarImagen("productos/jugoNaranja.png", labelWidth, labelHeight));
-	JLabel leche = new JLabel(redimensionarImagen("productos/leche.png", labelWidth, labelHeight));
-	JLabel pan = new JLabel(redimensionarImagen("productos/pan.png", labelWidth, labelHeight));
-	JLabel picafresa = new JLabel(redimensionarImagen("productos/picafresa.jpeg", labelWidth, labelHeight));
-	JLabel refresco = new JLabel(redimensionarImagen("productos/refresco.png", labelWidth, labelHeight));
-	JLabel shampo = new JLabel(redimensionarImagen("productos/shampo.png", labelWidth, labelHeight));
-	JLabel tostadas = new JLabel(redimensionarImagen("productos/tostadas.jpg", labelWidth, labelHeight));
-	JLabel vino = new JLabel(redimensionarImagen("productos/vino.jpg", labelWidth, labelHeight));
-	JLabel yogurth = new JLabel(redimensionarImagen("productos/yogurth.jpg", labelWidth, labelHeight));
+	for(String[] producto : productos){
+	    //Obtener un área para cada producto
+	    JPanel panelProducto = new JPanel(new BorderLayout());
+	    panelProducto.setBackground(blanco);
 
+	    JLabel imagen = new JLabel(redimensionarImagen(producto[1],labelWidth,labelHeight));
+	    JLabel nombre = new JLabel(producto[0], SwingConstants.CENTER);
+	    JLabel codigo = new JLabel("Codigo: " + producto[2], SwingConstants.CENTER);
+	    JButton botonAgregar = new JButton("Agregar al carrito");
 
-        panel_interno.add(atun);
-	panel_interno.add(cereales);
-	panel_interno.add(galletas);
-	panel_interno.add(jugo);
-	panel_interno.add(leche);
-	panel_interno.add(pan);
-	panel_interno.add(picafresa);
-	panel_interno.add(refresco);
-	panel_interno.add(shampo);
-	panel_interno.add(tostadas);
-	panel_interno.add(vino);
-	panel_interno.add(yogurth);
-
-	atun.addMouseListener(new MouseAdapter() {
-		public void mouseClicked(MouseEvent e){
-		    String resp = " ";
-		    resp = buscaProducto("1234lc"); //imprimir el producto atun
-		    articulos.setText(resp);
-		}
-	    });
 	
-	cereales.addMouseListener(new MouseAdapter() {
-		public void mouseClicked(MouseEvent e){
-		    String resp = " ";
-		    resp = buscaProducto("1234cl"); //imprimir el producto atun
-		    articulos.setText(resp);
+        botonAgregar.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent event){
+		    Producto tuProducto = almacen.buscaAux(producto[2]);
+		    if (tuProducto != null && tuProducto.getCantidad() > 0) {
+			cliente.agregarProductoCarrito(tuProducto);
+			JOptionPane.showMessageDialog(null, "Producto agregado al carrito");
+		    } else {
+			JOptionPane.showMessageDialog(null, "Producto no disponible");
+		    }
 		}
+		
 	    });
 
-	galletas.addMouseListener(new MouseAdapter() {
-		public void mouseClicked(MouseEvent e){
-		    String resp = " ";
-		    resp = buscaProducto("1234gs"); //imprimir el producto atun
-		    articulos.setText(resp);
-		}
-	    });
+	panelProducto.add(imagen, BorderLayout.NORTH);
+        panelProducto.add(nombre, BorderLayout.CENTER);
+        panelProducto.add(codigo, BorderLayout.SOUTH);
+        panelProducto.add(botonAgregar, BorderLayout.PAGE_END);
+	panel_interno.add(panelProducto);
 
-	jugo.addMouseListener(new MouseAdapter() {
-		public void mouseClicked(MouseEvent e){
-		    String resp = " ";
-		    resp = buscaProducto("1234jn"); //imprimir el producto atun
-		    articulos.setText(resp);
-		}
-	    });
+	}
 
-	leche.addMouseListener(new MouseAdapter() {
-		public void mouseClicked(MouseEvent e){
-		    String resp = " ";
-		    resp = buscaProducto("1234lc"); //imprimir el producto atun
-		    articulos.setText(resp);
-		}
-	    });
-
-	pan.addMouseListener(new MouseAdapter() {
-		public void mouseClicked(MouseEvent e){
-		    String resp = " ";
-		    resp = buscaProducto("1234pn"); //imprimir el producto atun
-		    articulos.setText(resp);
-		}
-	    });
-
-	picafresa.addMouseListener(new MouseAdapter() {
-		public void mouseClicked(MouseEvent e){
-		    String resp = " ";
-		    resp = buscaProducto("1234pf"); //imprimir el producto atun
-		    articulos.setText(resp);
-		}
-	    });
-
-	refresco.addMouseListener(new MouseAdapter() {
-		public void mouseClicked(MouseEvent e){
-		    String resp = " ";
-		    resp = buscaProducto("1234rf"); //imprimir el producto atun
-		    articulos.setText(resp);
-		}
-	    });
-
-	shampo.addMouseListener(new MouseAdapter() {
-		public void mouseClicked(MouseEvent e){
-		    String resp = " ";
-		    resp = buscaProducto("1234sp"); //imprimir el producto atun
-		    articulos.setText(resp);
-		}
-	    });
-
-	tostadas.addMouseListener(new MouseAdapter() {
-		public void mouseClicked(MouseEvent e){
-		    String resp = " ";
-		    resp = buscaProducto("1234td"); //imprimir el producto atun
-		    articulos.setText(resp);
-		}
-	    });
-
-	vino.addMouseListener(new MouseAdapter() {
-		public void mouseClicked(MouseEvent e){
-		    String resp = " ";
-		    resp = buscaProducto("1234vn"); //imprimir el producto atun
-		    articulos.setText(resp);
-		}
-	    });
-
-	yogurth.addMouseListener(new MouseAdapter() {
-		public void mouseClicked(MouseEvent e){
-		    String resp = " ";
-		    resp = buscaProducto("1234yg"); //imprimir el producto atun
-		    articulos.setText(resp);
-		}
-	    });
-	
 	panel.add(panel_interno);
 	panel.add(articulos);
-	panelFichas.addTab("Ver productos", null, panel);
+	panelFichas.addTab("Ver productos",null,panel);
     }
-
 
     /**
      *
@@ -187,41 +108,6 @@ public class TiendaVirtual extends JFrame{
 	panelFichas.addTab("Ver carrito",panel);
     }
 
-    /**
-     *
-     */
-    public void ponPestaniaAgregarProducto(){
-	int labelWidth = 100;
-	int labelHeight = 100;
-	JLabel carrito = new JLabel(redimensionarImagen("carrito.jpg",labelWidth, labelHeight));
-	JPanel panel = new JPanel(new GridLayout(1,2));
-	JButton boton_agregar = new JButton("Agregar al carrito");
-	
-	boton_agregar.addActionListener(new ActionListener(){
-		public void actionPerformed(ActionEvent evento){
-
-
-		    String codigo = JOptionPane.showInputDialog("Ingrese el código del producto:");
-		    if(codigo != null && !codigo.isEmpty()){
-			Producto tuProducto = Aplicacion.buscaAux(codigo);
-			if(tuProducto != null && tuProducto.getCantidad()>0){
-			    cliente.agregarProductoCarrito(tuProducto);
-			    JOptionPane.showMessageDialog(null,"Producto agregado al carrito");
-			}else{
-			    String noDisponible = "Producto no disponible";
-			    JOptionPane.showMessageDialog(null, noDisponible);
-			}
-			
-		    } else {
-			JOptionPane.showMessageDialog(null, "Código de producto inválido");
-		    }
-		}
-	    });
-	
-	panel.add(boton_agregar);
-	panel.add(carrito);
-	panelFichas.addTab("Agregar producto",panel);
-    }
 
     /**
      *
@@ -257,7 +143,7 @@ public class TiendaVirtual extends JFrame{
     public static void muestraInterfaz() {
 	TiendaVirtual tienda = new TiendaVirtual();
 	tienda.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-	tienda.setSize(900, 410);
+	tienda.setSize(900, 550);
 	tienda.setVisible(true);
 	tienda.setResizable(false);
     }
