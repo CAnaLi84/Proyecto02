@@ -49,7 +49,7 @@ public class Login extends JFrame implements ActionListener {
       String value2=password.getText();
       if (value1.equals("Pau88") && value2.equals("12345")) {
 	  openTiendaVirtual();
-         JOptionPane.showMessageDialog(this,"BIENVENIDO A TU AGENDA","ACCESO",JOptionPane.INFORMATION_MESSAGE);
+         JOptionPane.showMessageDialog(this,"BIENVENIDO","ACCESO",JOptionPane.INFORMATION_MESSAGE);
       } else {
          JOptionPane.showMessageDialog(this,"Usuario o password incorrectos","Error",JOptionPane.ERROR_MESSAGE);
       }

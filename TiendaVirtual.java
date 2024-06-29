@@ -64,7 +64,8 @@ public class TiendaVirtual extends JFrame{
 
 	for(String[] producto : productos){
 	    //Obtener un área para cada producto
-	    JPanel panelProducto = new JPanel(new BorderLayout());
+	    JPanel panelProducto = new JPanel();
+	    panelProducto .setLayout(new BoxLayout(panelProducto,BoxLayout.Y_AXIS));
 	    panelProducto.setBackground(blanco);
 
 	    JLabel imagen = new JLabel(redimensionarImagen(producto[1],labelWidth,labelHeight));
@@ -86,10 +87,10 @@ public class TiendaVirtual extends JFrame{
 		
 	    });
 
-	panelProducto.add(imagen, BorderLayout.NORTH);
-        panelProducto.add(nombre, BorderLayout.CENTER);
-        panelProducto.add(codigo, BorderLayout.SOUTH);
-        panelProducto.add(botonAgregar, BorderLayout.PAGE_END);
+	panelProducto.add(imagen);
+        panelProducto.add(nombre);
+        panelProducto.add(codigo);
+        panelProducto.add(botonAgregar);
 	panel_interno.add(panelProducto);
 
 	}
@@ -143,31 +144,11 @@ public class TiendaVirtual extends JFrame{
     public static void muestraInterfaz() {
 	TiendaVirtual tienda = new TiendaVirtual();
 	tienda.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-	tienda.setSize(900, 550);
+	tienda.setSize(900, 600);
 	tienda.setVisible(true);
 	tienda.setResizable(false);
     }
 
-
-    /**
-     * 
-     *
-     */
-    public String buscaProducto(String codigo){
-	String res="<html>";
-	if(almacen.getInventario() != null){
-	    for(Producto prod  : almacen.getInventario()){
-		if(prod.getCodigo().equals(codigo)){
-		    res+="<br>"+prod.toString();
-		}
-	    }
-	    res+="<html>";
-	    return res;
-	}else{
-	    res = "Inventario vacío";
-	    return res;
-	}
-    }
 
     /**
      *  Redimenciona las imágenes al tamaño de la etiqueta

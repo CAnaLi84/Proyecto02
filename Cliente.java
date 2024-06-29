@@ -97,8 +97,8 @@ public class Cliente{
      * Permite guardar el estado del carrito al momento de invocarse.
      *
      */
-    public Memento guardar(){
-	return new Memento(miCarrito);
+    public void guardar(){
+	Memento memento = new Memento(miCarrito);
     }
 
     /**
