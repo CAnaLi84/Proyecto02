@@ -101,13 +101,6 @@ public class Cliente{
 	Memento memento = new Memento(miCarrito);
     }
 
-    /**
-     * Permite restaurar el estádo del último carrito de compras
-     *
-     */
-    public void restaurar(Memento memento){
-	this.miCarrito = memento.getCarrito();
-    }
 
     /**
      * Método que muestra el historial de comrpas del cliente.
@@ -127,7 +120,7 @@ public class Cliente{
 		System.out.println(prod.toStringCliente());
 	    }
 	}else{
-	    System.out.println("Tu carrito de compras está no tiene productos.");
+	    System.out.println("Tu carrito de compras no tiene productos.");
 	}
     }
 }
