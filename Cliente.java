@@ -88,7 +88,7 @@ public class Cliente{
      * su historial de compras realizadas.
      */
     public void comprarCarrito(){
-        historico.guardar(this.guardar());
+        historico.guardar(miCarrito);
         miCarrito.clear();
 	System.out.println("Gracias por su compra, vuelva pronto!");
     }
@@ -106,9 +106,8 @@ public class Cliente{
      * Método que muestra el historial de comrpas del cliente.
      *
      */
-    public Memento mostrarHistorialCompras(){
-	Memento historial = historico.getUltimoEstadoGuardado();
-	return historial;
+    public void mostrarHistorialCompras(){
+	historico.getHistorico();
     }
 
     /**
